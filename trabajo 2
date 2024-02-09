@@ -1,0 +1,39 @@
+#include <iostream>
+
+int main() {
+    int filas, columnas;
+    std::cout << "Ingrese el número de filas de la matriz: ";
+    std::cin >> filas;
+    std::cout << "Ingrese el número de columnas de la matriz: ";
+    std::cin >> columnas;
+
+    int matriz[filas][columnas];
+
+    std::cout << "Ingrese los elementos de la matriz:" << std::endl;
+    for (int i = 0; i < filas; ++i) {
+        for (int j = 0; j < columnas; ++j) {
+            std::cout << "Ingrese el elemento [" << i << "][" << j << "]: ";
+            std::cin >> matriz[i][j];
+        }
+    }
+
+    std::cout << "Suma por filas:" << std::endl;
+    for (int i = 0; i < filas; ++i) {
+        int sumaFila = 0;
+        for (int j = 0; j < columnas; ++j) {
+            sumaFila += matriz[i][j];
+        }
+        std::cout << "Fila " << i << ": " << sumaFila << std::endl;
+    }
+
+    std::cout << "Suma por columnas:" << std::endl;
+    for (int j = 0; j < columnas; ++j) {
+        int sumaColumna = 0;
+        for (int i = 0; i < filas; ++i) {
+            sumaColumna += matriz[i][j];
+        }
+        std::cout << "Columna " << j << ": " << sumaColumna << std::endl;
+    }
+
+    return 0;
+}
