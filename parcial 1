@@ -1,0 +1,33 @@
+#include <iostream>
+#include <vector>
+
+void burbuja(std::vector<int>& lista) {
+  bool ordenado = false;
+  int n = lista.size();
+
+  while (!ordenado) {
+    ordenado = true;
+    for (int i = 0; i < n - 1; i++) {
+      if (lista[i] > lista[i + 1]) {
+        std::swap(lista[i], lista[i + 1]);
+        ordenado = false;
+      }
+    }
+  }
+}
+
+int main() {
+  std::vector<int> lista = { 5, 2, 4, 1, 3, 2, 5, 6, 7, 10, 20, 50, };
+
+
+  burbuja(lista);
+
+
+  for (int elemento : lista) {
+    std::cout << elemento << " ";
+  }
+
+  std::cout << std::endl;
+
+  return 0;
+}
