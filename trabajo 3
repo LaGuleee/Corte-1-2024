@@ -1,0 +1,143 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+struct Nodo {
+  int dato;
+  Nodo *siguiente;
+};
+
+class Lista {
+private:
+  Nodo *primero;
+  Nodo *ultimo;
+
+public:
+  Lista() {
+    primero = ultimo = nullptr;
+  }
+
+  bool vacia() {
+    return primero == nullptr;
+  }
+
+  void insertar(int dato) {
+    Nodo *nuevo = new Nodo();
+    nuevo->dato = dato;
+    nuevo->siguiente = nullptr;
+
+    if (vacia()) {
+      primero = ultimo = nuevo;
+    } else {
+      ultimo->siguiente = nuevo;
+      ultimo = nuevo;
+    }
+  }
+
+  void eliminar(int dato) {
+    Nodo *actual = primero;
+    Nodo *anterior = nullptr;
+
+    while (actual != nullptr && actual->dato != dato) {
+      anterior = actual;
+      actual = actual->siguiente;
+    }
+
+    if (actual != nullptr) {
+      if (actual == primero) {
+        primero = primero->siguiente;
+      } else if (actual == ultimo) {
+        ultimo = anterior;
+        anterior->siguiente = nullptr;
+      } else {
+        anterior->siguiente = actual->siguiente;
+      }
+
+      delete actual;
+    }
+  }
+
+  void mostrar() {
+    Nodo *actual = primero;
+
+    while (actual != nullptr) {
+      cout << actual->dato << " ";
+      actual = actual->siguiente;
+    }
+
+    cout << endl;
+  }
+};
+
+class Interfaz {
+private:
+  Lista lista;
+
+public:
+  void menu() {
+    int opcion;
+
+    do {
+      cout << "1. Insertar dato" << endl;
+      cout << "2. Eliminar dato" << endl;
+      cout << "3. Mostrar lista" << endl;
+      cout << "4. Salir" << endl;
+
+      cout << "Ingrese una opcion: ";
+      cin >> opcion;
+
+      switch (opcion) {
+        case 1:
+          insertarDato();
+          break;
+        case 2:
+          eliminarDato();
+          break;
+        case 3:
+          mostrarLista();
+          break;
+        case 4:
+          cout << "Saliendo..." << endl;
+          break;
+        default:
+          cout << "Opcion invalida!" << endl;
+      }
+    } while (opcion != 4);
+  }
+
+  void insertarDato() {
+    int dato;
+
+    cout << "Ingrese el dato a insertar: ";
+    cin >> dato;
+
+    lista.insertar(dato);
+
+    cout << "Dato insertado correctamente!" << endl;
+  }
+
+  void eliminarDato() {
+    int dato;
+
+    cout << "Ingrese el dato a eliminar: ";
+    cin >> dato;
+
+    lista.eliminar(dato);
+
+    cout << "Dato eliminado correctamente!" << endl;
+  }
+
+  void mostrarLista() {
+    cout << "Lista: ";
+    lista.mostrar();
+  }
+};
+
+int main() {
+  Interfaz interfaz;
+
+  interfaz.menu();
+
+  return 0;
+}
