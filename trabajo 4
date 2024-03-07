@@ -1,0 +1,85 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+
+void bubbleSort(vector<int>& arr) {
+    int n = arr.size(); 
+
+
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                swap(arr[j], arr[j + 1]);
+            }
+        }
+    }
+}
+
+
+void insertElement(vector<int>& arr, int element) {
+    arr.push_back(element); 
+    bubbleSort(arr); 
+}
+int binarySearch(vector<int>& arr, int target) {
+    int left = 0; 
+    int right = arr.size() - 1;
+
+
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        if (arr[mid] == target) {
+            return mid;
+        }
+        else if (arr[mid] < target) {
+            left = mid + 1;
+        }
+        else {
+            right = mid - 1; 
+    }
+
+    return -1; 
+}
+
+int main() {
+    vector<int> arr;
+    int choice, element; 
+
+    do {
+      
+        cout << "1. Ordenar vector\n";
+        cout << "2. Insertar elemento\n";
+        cout << "3. Buscar elemento\n";
+        cout << "4. Salir\n";
+        cout << "Ingrese su elección: ";
+        cin >> choice; 
+
+        switch (choice) {
+            case 1:
+                bubbleSort(arr); 
+                break;
+            case 2:
+                cout << "Ingrese el elemento a insertar: ";
+                cin >> element; 
+                insertElement(arr, element); 
+                break;
+            case 3:
+                cout << "Ingrese el elemento a buscar: ";
+                cin >> element; 
+                int index = binarySearch(arr, element); 
+                if (index == -1) {
+                    cout << "Elemento no encontrado.\n"; 
+                } else {
+                    cout << "Elemento encontrado en el índice " << index << ".\n";
+                }
+                break;
+            case 4:
+                cout << "Saliendo...\n"; 
+                return 0; 
+            default:
+                cout << "Opción inválida. Intente nuevamente.\n"; 
+        }
+    } while (true);
+
+    return 0;
+}
