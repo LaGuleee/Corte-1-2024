@@ -1,0 +1,117 @@
+#include <iostream>
+
+template <typename T>
+class DoublyLinkedList {
+private:
+    struct Node {
+        T data;
+        Node* prev;
+        Node* next;
+        Node(const T& d) : data(d), prev(nullptr), next(nullptr) {}
+    };
+
+    Node* head;
+    Node* tail;
+    int size;
+
+public:
+    DoublyLinkedList() : head(nullptr), tail(nullptr), size(0) {}
+
+    ~DoublyLinkedList() {
+        clear();
+    }
+
+    void clear() {
+        Node* current = head;
+        while (current != nullptr) {
+            Node* next = current->next;
+            delete current;
+            current = next;
+        }
+        head = tail = nullptr;
+        size = 0;
+    }
+
+    int getSize() const {
+        return size;
+    }
+
+    bool isEmpty() const {
+        return size == 0;
+    }
+
+    void addFront(const T& data) {
+        Node* newNode = new Node(data);
+        if (isEmpty()) {
+            head = tail = newNode;
+        } else {
+            newNode->next = head;
+            head->prev = newNode;
+            head = newNode;
+        }
+        size++;
+    }
+
+    void addBack(const T& data) {
+        Node* newNode = new Node(data);
+        if (isEmpty()) {
+            head = tail = newNode;
+        } else {
+            newNode->prev = tail;
+            tail->next = newNode;
+            tail = newNode;
+        }
+        size++;
+    }
+
+    T sum() const {
+        T total = 0;
+        Node* current = head;
+        while (current != nullptr) {
+            total += current->data;
+            current = current->next;
+        }
+        return total;
+    }
+
+    T max() const {
+        if (isEmpty()) {
+            throw std::runtime_error("Lista vacía");
+        }
+        T maxValue = head->data;
+        Node* current = head->next;
+        while (current != nullptr) {
+            if (current->data > maxValue) {
+                maxValue = current->data;
+            }
+            current = current->next;
+        }
+        return maxValue;
+    }
+
+    T min() const {
+        if (isEmpty()) {
+            throw std::runtime_error("Lista vacía");
+        }
+        T minValue = head->data;
+        Node* current = head->next;
+        while (current != nullptr) {
+            if (current->data < minValue) {
+                minValue = current->data;
+            }
+            current = current->next;
+        }
+        return minValue;
+    }
+
+    bool sequentialSearch(const T& key) const {
+        Node* current = head;
+        while (current != nullptr) {
+            if (current->data == key) {
+                return true;
+            }
+            current = current->next;
+        }
+        return false;
+    }
+};
