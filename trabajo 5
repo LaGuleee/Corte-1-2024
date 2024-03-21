@@ -1,0 +1,67 @@
+#include <iostream>
+
+using namespace std;
+
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+// Class
+class LinkedList {
+private:
+    Node* head;
+
+public:
+    LinkedList() {
+        head = nullptr;
+    }
+
+// Met //
+    void insertWithValueAndPriority(int value, int priority) {
+        Node* newNode = new Node;
+        newNode->data = value;
+
+        if (priority == 3 || priority == 2) {
+            newNode->next = head;
+            head = newNode;
+        } else if (priority == 1) {
+            Node* current = head;
+            if (current == nullptr) {
+                head = newNode;
+                newNode->next = nullptr;
+            } else {
+                while (current->next != nullptr) {
+                    current = current->next;
+                }
+                current->next = newNode;
+                newNode->next = nullptr;
+            }
+        } else {
+            cout << "Prioridad no válida" << endl;
+            delete newNode;
+        }
+    }
+
+// Mét
+    void printList() {
+        Node* current = head;
+        while (current != nullptr) {
+            cout << current->data << " ";
+            current = current->next;
+        }
+        cout << endl;
+    }
+};
+//ejemplo de insertar con su Prioridad //
+int main() {
+    LinkedList list;
+    list.insertWithValueAndPriority(5, 1); // Prioridad 1, se inserta al final
+    list.insertWithValueAndPriority(10, 3); // Prioridad 3, se inserta al principio
+    list.insertWithValueAndPriority(15, 2); // Prioridad 2, se inserta al principio
+    list.insertWithValueAndPriority(20, 3); // Prioridad 3, se inserta al principio
+    list.printList();
+
+    return 0;
+}
