@@ -1,117 +1,83 @@
 #include <iostream>
 
-template <typename T>
+// Definición de la estructura del nodo
+struct Node {
+    int data;
+    Node* next;
+    Node* prev;
+};
+
+// Clase para la lista doblemente enlazada y circular
 class DoublyLinkedList {
 private:
-    struct Node {
-        T data;
-        Node* prev;
-        Node* next;
-        Node(const T& d) : data(d), prev(nullptr), next(nullptr) {}
-    };
-
     Node* head;
-    Node* tail;
-    int size;
-
 public:
-    DoublyLinkedList() : head(nullptr), tail(nullptr), size(0) {}
+    // Constructor
+    DoublyLinkedList() : head(nullptr) {}
 
-    ~DoublyLinkedList() {
-        clear();
-    }
+    // Método para insertar un nodo al final de la lista
+    void insert(int value) {
+        Node* newNode = new Node();
+        newNode->data = value;
+        newNode->next = nullptr;
 
-    void clear() {
-        Node* current = head;
-        while (current != nullptr) {
-            Node* next = current->next;
-            delete current;
-            current = next;
-        }
-        head = tail = nullptr;
-        size = 0;
-    }
-
-    int getSize() const {
-        return size;
-    }
-
-    bool isEmpty() const {
-        return size == 0;
-    }
-
-    void addFront(const T& data) {
-        Node* newNode = new Node(data);
-        if (isEmpty()) {
-            head = tail = newNode;
+        if (head == nullptr) {
+            head = newNode;
+            head->next = head;
+            head->prev = head;
         } else {
+            Node* last = head->prev;
+            last->next = newNode;
+            newNode->prev = last;
             newNode->next = head;
             head->prev = newNode;
-            head = newNode;
         }
-        size++;
     }
 
-    void addBack(const T& data) {
-        Node* newNode = new Node(data);
-        if (isEmpty()) {
-            head = tail = newNode;
-        } else {
-            newNode->prev = tail;
-            tail->next = newNode;
-            tail = newNode;
+    // Método para sumar todos los componentes de la lista, encontrar máximo y mínimo
+    void sumMaxMin() {
+        if (head == nullptr) {
+            std::cout << "La lista está vacía." << std::endl;
+            return;
         }
-        size++;
-    }
 
-    T sum() const {
-        T total = 0;
         Node* current = head;
-        while (current != nullptr) {
-            total += current->data;
-            current = current->next;
-        }
-        return total;
-    }
+        int sum = 0;
+        int max = head->data;
+        int min = head->data;
 
-    T max() const {
-        if (isEmpty()) {
-            throw std::runtime_error("Lista vacía");
-        }
-        T maxValue = head->data;
-        Node* current = head->next;
-        while (current != nullptr) {
-            if (current->data > maxValue) {
-                maxValue = current->data;
-            }
-            current = current->next;
-        }
-        return maxValue;
-    }
+        do {
+            sum += current->data;
 
-    T min() const {
-        if (isEmpty()) {
-            throw std::runtime_error("Lista vacía");
-        }
-        T minValue = head->data;
-        Node* current = head->next;
-        while (current != nullptr) {
-            if (current->data < minValue) {
-                minValue = current->data;
+            if (current->data > max) {
+                max = current->data;
             }
-            current = current->next;
-        }
-        return minValue;
-    }
 
-    bool sequentialSearch(const T& key) const {
-        Node* current = head;
-        while (current != nullptr) {
-            if (current->data == key) {
-                return true;
+            if (current->data < min) {
+                min = current->data;
             }
+
             current = current->next;
-        }
-        return false;
+        } while (current != head);
+
+        std::cout << "Suma de todos los componentes: " << sum << std::endl;
+        std::cout << "Máximo valor de la lista: " << max << std::endl;
+        std::cout << "Mínimo valor de la lista: " << min << std::endl;
     }
 };
+
+int main() {
+    DoublyLinkedList list;
+
+    // Insertar elementos en la lista
+    list.insert(5);
+    list.insert(10);
+    list.insert(3);
+    list.insert(8);
+    list.insert(1);
+
+    // Calcular suma, máximo y mínimo
+    list.sumMaxMin();
+
+    return 0;
+}
