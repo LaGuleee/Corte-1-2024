@@ -1,0 +1,99 @@
+#include <iostream>
+#include <stack>
+#include <queue>
+
+using namespace std;
+
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+    Node(int val) : data(val), left(nullptr), right(nullptr) {}
+};
+
+void insert(Node*& root, int val) {
+    if (root == nullptr) {
+        root = new Node(val);
+        return;
+    }
+    if (val < root->data) {
+        insert(root->left, val);
+    } else {
+        insert(root->right, val);
+    }
+}
+
+void inorder(Node* root) {
+    if (root != nullptr) {
+        inorder(root->left);
+        cout << root->data << " ";
+        inorder(root->right);
+    }
+}
+
+int main() {
+    char choice;
+    do {
+        cout << "¿Quiere usar pilas (p) o colas (c)? ";
+        cin >> choice;
+
+        if (choice == 'p') { 
+            stack<int> s;
+            int num;
+            cout << "Introduzca los elementos, ponga 0 para detenerse: ";
+            cin >> num;
+            while (num != 0) {
+                s.push(num);
+                cin >> num;
+            }
+            while (!s.empty()) {
+                cout << s.top() << " ";
+                s.pop();
+            }
+        } else if (choice == 'c') { 
+            queue<int> q;
+            int num;
+            cout << "Introduzca los elementos, ponga 0 para detenerse: ";
+            cin >> num;
+            while (num != 0) {
+                q.push(num);
+                cin >> num;
+            }
+            while (!q.empty()) {
+                cout << q.front() << " ";
+                q.pop();
+            }
+        } else {
+            cout << "Opción no válida." << endl;
+        }
+
+        cout << "\n¿Quiere convertir los elementos en un árbol de búsqueda (s/n)? ";
+        cin >> choice;
+
+        if (choice == 's') { 
+            Node* root = nullptr;
+            if (choice == 'p') {
+                stack<int> s;
+                while (!s.empty()) {
+                    insert(root, s.top());
+                    s.pop();
+                }
+            } else { 
+                queue<int> q;
+                while (!q.empty()) {
+                    insert(root, q.front());
+                    q.pop();
+                }
+            }
+            cout << "Árbol en orden: ";
+            inorder(root);
+        }
+
+        cout << "\n¿Desea repetir (s/n)? ";
+        cin >> choice;
+
+    } while (choice == 's');
+
+    cout << "¡Nos Vemos pronto!";
+    return 0;
+}
