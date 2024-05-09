@@ -1,0 +1,58 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <cstdlib>
+#include <ctime>
+
+struct Equipo {
+    std::string nombre;
+
+    Equipo(const std::string& nombre) : nombre(nombre) {}
+};
+
+void simularFaseDeGrupos(const std::vector<Equipo>& equipos) {
+    std::cout << "=== Fase de Grupos ===" << std::endl;
+    for (size_t i = 0; i < equipos.size(); ++i) {
+        for (size_t j = i + 1; j < equipos.size(); ++j) {
+            std::cout << equipos[i].nombre << " vs " << equipos[j].nombre << std::endl;
+        }
+    }
+}
+
+void simularCuartosDeFinal(const std::vector<Equipo>& equipos) {
+    std::cout << "=== Cuartos de Final ===" << std::endl;
+    for (size_t i = 0; i < equipos.size(); i += 4) {
+        for (size_t j = i; j < i + 2; ++j) {
+            std::cout << equipos[j].nombre << " vs " << equipos[j + 2].nombre << std::endl;
+        }
+    }
+}
+
+
+void simularSemifinales(const std::vector<Equipo>& equipos) {
+    std::cout << "=== Semifinales ===" << std::endl;
+    std::cout << equipos[0].nombre << " vs " << equipos[1].nombre << std::endl;
+    std::cout << equipos[2].nombre << " vs " << equipos[3].nombre << std::endl;
+}
+
+void simularFinal(const std::vector<Equipo>& equipos) {
+    std::cout << "=== Final ===" << std::endl;
+    std::cout << "FINAL: " << equipos[0].nombre << " vs " << equipos[1].nombre << std::endl;
+}
+
+int main() {
+    srand(static_cast<unsigned int>(time(nullptr)));
+
+    std::vector<Equipo> equipos;
+    for (int i = 1; i <= 8; ++i) {
+        equipos.emplace_back("Equipo " + std::to_string(i));
+    }
+
+
+    simularFaseDeGrupos(equipos);
+    simularCuartosDeFinal(equipos);
+    simularSemifinales(equipos);
+    simularFinal(equipos);
+
+    return 0;
+}
