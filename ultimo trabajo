@@ -1,0 +1,69 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+
+struct Nodo {
+    int valor;
+    vector<Nodo*> conexiones;
+};
+
+void encontrarDistanciaMasCorta(int** matrizAdyacente, int n, int nodoInicio, int nodoFin) {
+
+}
+
+int main() {
+    int numNodos;
+    cout << "Ingrese el número de nodos: ";
+    cin >> numNodos;
+
+    vector<Nodo> grafo(numNodos);
+
+    int** matrizAdyacente = new int*[numNodos];
+    for (int i = 0; i < numNodos; ++i) {
+        matrizAdyacente[i] = new int[numNodos];
+        for (int j = 0; j < numNodos; ++j) {
+            matrizAdyacente[i][j] = 0; 
+        }
+    }
+
+
+    for (int i = 0; i < numNodos; ++i) {
+        int numConexiones;
+        cout << "Ingrese el número de conexiones para el nodo " << i << ": ";
+        cin >> numConexiones;
+
+        cout << "Ingrese los nodos conectados al nodo " << i << ": ";
+        for (int j = 0; j < numConexiones; ++j) {
+            int nodoConectado;
+            cin >> nodoConectado;
+            grafo[i].conexiones.push_back(&grafo[nodoConectado]);
+            matrizAdyacente[i][nodoConectado] = 1; 
+        }
+    }
+
+
+    for (int i = 0; i < numNodos; ++i) {
+        cout << "Nodo " << i << " está conectado con: ";
+        for (Nodo* nodo : grafo[i].conexiones) {
+            cout << nodo->valor << " ";
+        }
+        cout << endl;
+    }
+
+  
+    int nodoInicio, nodoFin;
+    cout << "Ingrese el nodo de inicio y el nodo de fin para encontrar la distancia más corta: ";
+    cin >> nodoInicio >> nodoFin;
+
+    encontrarDistanciaMasCorta(matrizAdyacente, numNodos, nodoInicio, nodoFin);
+
+
+    for (int i = 0; i < numNodos; ++i) {
+        delete[] matrizAdyacente[i];
+    }
+    delete[] matrizAdyacente;
+
+    return 0;
+}
